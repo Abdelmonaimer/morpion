@@ -12,7 +12,7 @@ class Game extends React.Component {
             squares: Array(9).fill(null),
             xIsNext: true,
             isComputerTurn: false,
-            gameMode: 'human-vs-human',
+            gameMode: 'player vs player',
             difficulty: 'easy', // add this line
         };
         this.computerPlayer = new ComputerPlayer();
@@ -30,14 +30,14 @@ class Game extends React.Component {
         if (CalculateWinner(squares) || squares[i]) {
             return;
         }
-        if (!Board(squares) && this.state.gameMode === "human-vs-human") {
+        if (!Board(squares) && this.state.gameMode === "player vs player") {
             squares[i] = this.state.xIsNext ? "X" : "O";
             this.setState({
                 squares: squares,
                 xIsNext: !this.state.xIsNext,
             });
         }
-        if (!Board(squares) && this.state.gameMode === "player-vs-computer") {
+        if (!Board(squares) && this.state.gameMode === "player vs computer") {
             squares[i] = "X";
             this.setState({
                 squares: squares,
@@ -65,7 +65,7 @@ class Game extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.state.gameMode === "player-vs-computer" && !this.state.xIsNext && this.state.isComputerTurn) {
+        if (this.state.gameMode === "player vs computer" && !this.state.xIsNext && this.state.isComputerTurn) {
             const squares = this.state.squares.slice();
             const computerMove = this.computerPlayer.getMove(squares, 'O');
             squares[computerMove] = 'O';
@@ -89,7 +89,7 @@ class Game extends React.Component {
 
     handleGameModeClick() {
         this.setState({
-            gameMode: this.state.gameMode === "human-vs-human" ? "player-vs-computer" : "human-vs-human"
+            gameMode: this.state.gameMode === "player vs player" ? "player vs computer" : "player vs player"
         });
         this.handleNewGameClick();
     }
@@ -100,7 +100,7 @@ class Game extends React.Component {
             gameStatus = "Winner: " + winner;
         } else if (Board(this.state.squares)) {
             gameStatus = "Draw";
-        } else if (this.state.gameMode === "player-vs-computer" && !this.state.xIsNext) {
+        } else if (this.state.gameMode === "player vs player" && !this.state.xIsNext) {
             gameStatus = "Computer is playing...";
         } else {
             gameStatus = "Next player: " + (this.state.xIsNext ? "X" : "O");
@@ -113,9 +113,9 @@ class Game extends React.Component {
                         <h1>Welcome to Morpion  </h1>
                         <h2>Choose :</h2>
                         <button className='btn btn-success my-3 ms-2' onClick={() => this.handleGameModeClick()}>
-                            Switch to {this.state.gameMode === "human-vs-human" ? "player-vs-computer" : "human-vs-human"}
+                            {this.state.gameMode === "player vs player" ? "player vs computer" : "player vs player"}
                         </button>
-                        {this.state.gameMode === "player-vs-computer" && this.state.xIsNext && (
+                        {this.state.gameMode === "player vs computer" && this.state.xIsNext && (
                             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "1rem" }}>
                                 <button
                                     className='mx-1 my-1'
@@ -163,7 +163,7 @@ class Game extends React.Component {
                 </div>
 
                 <div className="button-container" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <button className="new-game-button btn btn-primary mt-2" onClick={() => this.handleNewGameClick()}>New Game</button>
+                    <button className="new-game-button btn btn-primary mt-2" onClick={() => this.handleNewGameClick()}>RESTART</button>
                 </div>
 
 
